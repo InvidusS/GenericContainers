@@ -5,7 +5,7 @@ class Node{
 public:
     T value;
     Node<T>* next;
-    Node() : next{nullptr} {}
+    Node(T value = 0) : value{value}, next{nullptr} {}
 };
 
 template <typename T>
@@ -68,10 +68,35 @@ public:
 
         std::cout << "There is not " << value << " element" << '\n';
     }
+    bool search(T value){
+        Node<T>* temp = first;
+        while(temp != nullptr){
+            if(temp->value == value)
+                return true;
+            temp = temp->next;
+        }
+        return false;
+    }
     bool isEmpty(){
         return (first == nullptr) ? true : false;
     }
     T frontOfList(){
         return first->value;
+    }
+
+    bool operator == (const List<T>& l) const{
+        Node<T>* temp1 = this->first;
+        Node<T>* temp2 = l.first;
+        while(temp1 != nullptr && temp2 != nullptr){
+            if(temp1->value != temp2->value)
+                return false;
+            temp1 = temp1->next;
+            temp2 = temp2->next;
+        }
+        if(temp1 == nullptr && temp2 != nullptr || temp2 == nullptr && temp1 != nullptr)
+            return false;
+        
+
+        return true;
     }
 };
