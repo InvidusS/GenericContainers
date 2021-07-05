@@ -29,6 +29,7 @@ public:
         for(const auto& element : list)
             List<T>::pushFront(element);
     }
+    ~List() {delete first;}
 
     void pushFront(T);
     void popFront();
