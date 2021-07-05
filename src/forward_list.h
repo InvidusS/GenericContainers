@@ -1,21 +1,21 @@
 #include <iostream>
 
-template <typename T>
-class List{
+template <typename T> class List {
 private:
-    class Node{
+    class Node {
     public:
         T value;
         List<T>::Node* next;
         Node(T value = 0) : value{value}, next{nullptr} {}
+        ~Node() {delete next;}
     };
     List<T>::Node* first;
 
-    friend std::ostream& operator << (std::ostream& os,const List<T>& l){
+    friend std::ostream& operator << (std::ostream& os,const List<T>& l) {
         List<T>::Node* n = l.first;
 
         os << "[ ";
-        while(n != nullptr){
+        while(n != nullptr) {
             os << n->value << ' ';
             n = n->next;
         }
@@ -38,11 +38,11 @@ public:
     bool isEmpty() const;
     T frontOfList() const;
 
-    bool operator == (const List<T>& l) const{
+    bool operator == (const List<T>& l) const {
         List<T>::Node* temp1 = first;
         List<T>::Node* temp2 = l.first;
 
-        while(temp1 != nullptr && temp2 != nullptr){
+        while(temp1 != nullptr && temp2 != nullptr) {
             if(temp1->value != temp2->value)
                 return false;
             temp1 = temp1->next;
@@ -56,8 +56,7 @@ public:
     }
 };
 
-template <typename T>
-void List<T>::pushFront(T value){
+template <typename T> void List<T>::pushFront(T value) {
     List<T>::Node* newElement = new List<T>::Node;
     newElement->value = value;
     if(first == nullptr)
@@ -68,30 +67,25 @@ void List<T>::pushFront(T value){
     }
 }
 
-template <typename T>
-void List<T>::popFront(){
+template <typename T> void List<T>::popFront() {
     List<T>::Node* temp = first->next;
-    delete first;
     first = temp;
 }
 
-template <typename T>
-void List<T>::ereaseElement(T value){
-    if(first->value == value){
-        popFront();
-         return;
-    } else if(first->next == nullptr){
-        if(first->value == value){
-            delete first;
+template <typename T> void List<T>::ereaseElement(T value) {
+    if(first->value == value) {
+        List<T>::popFront();
+        return;
+    } else if(first->next == nullptr) {
+        if(first->value == value) {
             first = nullptr;
             return;
         }
     } else {
         List<T>::Node* temp = first;
-        while(temp->next != nullptr){
-            if(temp->next->value == value){
+        while(temp->next != nullptr) {
+            if(temp->next->value == value) {
                 List<T>::Node* tempPtr = temp->next->next;
-                delete temp->next;
                 temp->next = tempPtr;
                 return;
             }
@@ -102,10 +96,9 @@ void List<T>::ereaseElement(T value){
     std::cout << "There is not " << value << " element" << '\n';
 }
 
-template <typename T>
-bool List<T>::search(T value){
+template <typename T> bool List<T>::search(T value) {
     List<T>::Node* temp = first;
-    while(temp != nullptr){
+    while(temp != nullptr) {
         if(temp->value == value)
             return true;
         temp = temp->next;
@@ -113,12 +106,11 @@ bool List<T>::search(T value){
     return false;
 }
 
-template <typename T>
-void List<T>::reverse(){
+template <typename T> void List<T>::reverse() {
     List<T>::Node* temp = first;
     List<T>::Node* previous = nullptr;
     List<T>::Node* next = nullptr;
-    while(temp != nullptr){
+    while(temp != nullptr) {
         next = temp->next;
         temp->next = previous;
         previous = temp;
@@ -127,12 +119,10 @@ void List<T>::reverse(){
     first = previous;
 }
 
-template <typename T>
-bool List<T>::isEmpty() const{
+template <typename T> bool List<T>::isEmpty() const {
     return (first == nullptr) ? true : false;
 }
 
-template <typename T>
-T List<T>::frontOfList() const{
+template <typename T> T List<T>::frontOfList() const {
     return first->value;
 }
